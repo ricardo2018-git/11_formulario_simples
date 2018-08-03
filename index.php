@@ -49,11 +49,6 @@
 
 					#Antes, de guardar filtra
 					$site  = filtro($_POST["site"]);
-
-					# Valida URL:
-					if(preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)){
-						$siteErro = "URL Invalido!";
-					}	
 				}
 				
 				#Verifica se a var esta vazia..
@@ -123,4 +118,3 @@
 		?>
 	</body>
 </html>
-
