@@ -13,35 +13,65 @@
 
 			# Verifica se os dados foi enviado via POST..
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
-				
-				if(empty($_POST["nome"])){	#Verifica se a var esta vazia..
+
+				#Verifica se a var esta vazia..
+				if(empty($_POST["nome"])){	
 					$nomeErro = "*Obrigatório";	
 				}else{
-					$nome  = filtro($_POST["nome"]);	#Antes, de guardar filtra
+
+					#Antes, de guardar filtra
+					$nome  = filtro($_POST["nome"]);	
+
+					# Valida o nome da Pessoa
+					if(!preg_match("/^[a-zA-Z ]*$/", $nome)){
+						$nomeErro = "Nome Invalido!";
+					}
 				}
-				
-				if(empty($_POST["email"])){	#Verifica se a var esta vazia..
+
+				#Verifica se a var esta vazia..
+				if(empty($_POST["email"])){	
 					$emailErro = "*Obrigatório";
 				}else{
-					$email = filtro($_POST["email"]);	#Antes, de guardar filtra
+
+					#Antes, de guardar filtra
+					$email = filtro($_POST["email"]);
+
+					#verifica se é realmente um e-mail
+					if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+						$emailErro = "E-mail, Invalido!";
+					}
 				}
 				
-				if(empty($_POST["site"])){	#Verifica se a var esta vazia..
+				#Verifica se a var esta vazia..
+				if(empty($_POST["site"])){	
 					$siteErro = "";
 				}else{
-					$site  = filtro($_POST["site"]);	#Antes, de guardar filtra
+
+					#Antes, de guardar filtra
+					$site  = filtro($_POST["site"]);
+
+					# Valida URL:
+					if(preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)){
+						$siteErro = "URL Invalido!";
+					}	
 				}
 				
-				if(empty($_POST["texto"])){	#Verifica se a var esta vazia..
+				#Verifica se a var esta vazia..
+				if(empty($_POST["texto"])){	
 					$obsErro = "";
 				}else{
-					$obs   = filtro($_POST["texto"]);	#Antes, de guardar filtra
+
+					#Antes, de guardar filtra
+					$obs   = filtro($_POST["texto"]);	
 				}
 				
-				if(empty($_POST["sexo"])){	#Verifica se a var esta vazia..
+				#Verifica se a var esta vazia..
+				if(empty($_POST["sexo"])){	
 					$sexoErro = "*Obrigatório";
 				}else{
-					$sexo  = filtro($_POST["sexo"]);	#Antes, de guardar filtra
+
+					#Antes, de guardar filtra
+					$sexo  = filtro($_POST["sexo"]);	
 				}
 				
 			}
@@ -58,23 +88,23 @@
 		<!-- Envia p/ mesma pagina "PHP_SELF" retorna o nome da pg atual -->
 		<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 			<h1>Formulario</h1>
-			Nome: <input type="text" name="nome"/>
-			<span class="error"><?php echo $nomeErro; ?></span>
+			Nome: <input type="text" name="nome"/><!-- Se quiser manter os dados, value="<?php /*echo*/ $nome;?>" -->
+			<span class="error"><?php echo $nomeErro; ?></span><!-- Se ñ preencher aparece mensagem se for obrigatório -->
 			<br/><br/>
-			E-mail: <input type="email" name="email"/>
-			<span class="error"><?php echo $emailErro; ?></span>
+			E-mail: <input type="email" name="email"/><!-- Se quiser manter os dados, value="<?php /*echo*/ $email;?>" -->
+			<span class="error"><?php echo $emailErro; ?></span><!-- Se ñ preencher aparece mensagem se for obrigatório -->
 			<br/><br/>
-			site: <input type="text" name="site"/>
-			<span class="error"><?php echo $siteErro; ?></span>
+			site: <input type="text" name="site"/><!-- Se quiser manter os dados, value="<?php /*echo*/ $site;?>" -->
+			<span class="error"><?php echo $siteErro; ?></span><!-- Se ñ preencher aparece mensagem se for obrigatório -->
 			<br/><br/>
-			Obs: <textarea name="texto" rows="5" cols="40"/></textarea>
-			<span class="error"><?php echo $obsErro; ?></span>
+			Obs: <textarea name="texto" rows="5" cols="40"/></textarea><!-- Se quiser manter os dados, value="<?php /*echo*/ $obs;?>" -->
+			<span class="error"><?php echo $obsErro; ?></span><!-- Se ñ preencher aparece mensagem se for obrigatório -->
 			<br/><br/>
 			sexo: 
 			<input type="radio" name="sexo" value="f">Feminino
 			<input type="radio" name="sexo" value="m">Masculino
 			<input type="radio" name="sexo" value="o">Outro(as)
-			<span class="error"><?php echo $sexoErro; ?></span>
+			<span class="error"><?php echo $sexoErro; ?></span><!-- Se ñ preencher aparece mensagem se for obrigatório -->
 			<br/><br/>
 			<input type="submit" name="submit" value="Enviar">
 		</form>
